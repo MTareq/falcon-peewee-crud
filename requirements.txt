@@ -1,0 +1,4 @@
+peewee
+marshmallow
+falcon
+gunicorn
