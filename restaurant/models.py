@@ -29,7 +29,7 @@ class Restaurant(Model):
 class RestaurantSchema(Schema):
     "Marshmallow schema to mirror the Restaurant model"
 
-    id = fields.int(dump_only=True)
+    id = fields.Int(dump_only=True)
     name = fields.Str()
     opens_at = fields.Time()
     closes_at = fields.Time()
