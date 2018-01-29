@@ -1,7 +1,12 @@
-from peewee import SqliteDatabase, Model, CharField, TimeField
+import os
+from peewee import SqliteDatabase, Model, CharField, TimeField, OperationalError
 from marshmallow import Schema, fields
 
-db = SqliteDatabase('dh-task.db')
+if os.environ.get('TESTING', None):
+    db = SqliteDatabase(':memory:')
+    del os.environ['TESTING']
+else:
+    db = SqliteDatabase('dh-task.db')
 
 
 class Restaurant(Model):
@@ -33,3 +38,11 @@ class RestaurantSchema(Schema):
     name = fields.Str()
     opens_at = fields.Time()
     closes_at = fields.Time()
+
+
+try:
+    db.connect()
+    db.create_table(Restaurant)
+    db.close()
+except OperationalError:
+    pass
