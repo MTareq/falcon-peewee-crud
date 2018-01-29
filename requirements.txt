@@ -2,3 +2,4 @@ peewee
 marshmallow
 falcon
 gunicorn
+pytest
