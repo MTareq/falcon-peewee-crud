@@ -1,8 +1,10 @@
 import falcon
+from .models import init_db
 from .resources import RestaurantResource, RestaurantCollection
 
 
 def create():
+    init_db()
     api = falcon.API()
     restuaurnat = RestaurantResource()
     restuaurnat_collection = RestaurantCollection()

@@ -35,9 +35,10 @@ class RestaurantSchema(Schema):
     closes_at = fields.Time()
 
 
-try:
-    db.connect()
-    db.create_table(Restaurant)
-    db.close()
-except OperationalError:
-    pass
+def init_db():
+    try:
+        db.connect()
+        db.create_tables([Restaurant], safe=True)
+        db.close()
+    except OperationalError:
+        pass
