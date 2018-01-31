@@ -13,7 +13,7 @@ class BaseResource:
         """Serializes the peewee objects using its corresponding schema
            to be json encoded.
 
-           Params:
+           Args:
                data: Peewee Object or List of objects depending
                      on the instance schema if many == True or not
            Returns:
@@ -42,7 +42,7 @@ class BaseResource:
 
     def create_object(self, data):
         """Creates a single object in the corresponding table
-           Params:
+           Args:
                data: Deserialized input coressponds to model attribute.
            Returns:
                obj: Newly created peewee object.
@@ -52,21 +52,21 @@ class BaseResource:
 
     def get_object(self, obj_id):
         """Rerieve a single record given its id
-           Params:
+           Args:
                obj_id: object priamary key(id)
            Returns:
                obj: Record if found or 404 if not found
         """
         try:
             obj = self.model.get(self.model.id == obj_id)
-        except self.model.DoesNotExist:
+        except (self.model.DoesNotExist, ValueError):
             raise falcon.errors.HTTPNotFound
         return obj
 
     def get_object_list(self, query=None):
         """Returns a list of object based on the passed query
            or it will select all the rows in the table.
-           Params:
+           Args:
                query(optional): Peewee query Expression.
         """
         result = self.model.select()
@@ -76,7 +76,7 @@ class BaseResource:
 
     def update_object(self, data, obj_id):
         """Updates an object(row) using its primary key(id)
-           Params:
+           Args:
                data: dict with changes {'attr': 'change'}
                obj_id: object priamary key(id)
            returns:
@@ -91,7 +91,7 @@ class BaseResource:
 
     def delete_object(self, obj_id):
         """Deletes an object(row) using its primary key(id)
-           Params:
+           Args:
                obj_id: object priamary key(id)
            returns:
                deleted: number of rows deleted
@@ -257,7 +257,7 @@ class Collection(BaseResource):
             obj_list = self.get_object_list(query)
         if obj_list:
             for obj in obj_list:
-                deleted += self.delete_object(obj, query)
+                deleted += self.delete_object(obj.id)
         resp.body = json.dumps({"deleted_rows": deleted})
         return resp
 
