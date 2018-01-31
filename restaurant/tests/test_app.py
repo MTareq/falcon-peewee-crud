@@ -24,7 +24,7 @@ def test_bulk_create(client, raw_bulk_data, restaurants_path):
 
 
 def test_get_object(client, restaurants_path):
-    "Get restaurants with id=1 and id=8 which does not exist"
+    "Gets restaurants with id=1 and id=8 which does not exist"
 
     expected = {'name': 'test_restaurant2',
                 'opens_at': '12:30:00',
@@ -37,7 +37,7 @@ def test_get_object(client, restaurants_path):
 
 
 def test_get_list_of_objects(client, restaurants_path):
-    "Get all restaurants"
+    "Gets all restaurants"
 
     get_res = client.simulate_get(restaurants_path)
     assert len(get_res.json) == 7  # initial 2 restaurants and another 5 from the bulk create
