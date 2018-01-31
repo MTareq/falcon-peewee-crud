@@ -1,12 +1,7 @@
-import os
 from peewee import SqliteDatabase, Model, CharField, TimeField, OperationalError
 from marshmallow import Schema, fields
 
-if os.environ.get('TESTING', None):
-    db = SqliteDatabase(':memory:')
-    del os.environ['TESTING']
-else:
-    db = SqliteDatabase('dh-task.db')
+db = SqliteDatabase('dh-task.db')
 
 
 class Restaurant(Model):
